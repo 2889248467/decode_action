@@ -1,4 +1,4 @@
-//Mon Jul 01 2024 15:22:06 GMT+0000 (Coordinated Universal Time)
+//Mon Jul 01 2024 15:24:34 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
 var 哇哈哈_0x2b0a2f = "jsjiami.com.v7";
