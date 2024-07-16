@@ -1,14 +1,13 @@
-#2024-07-16 03:45:30
+#2024-07-16 04:18:38
 import requests
-import time
 import os
+import time
+import random
 from urllib.parse import urlparse,parse_qs,quote
 import re
-import random
-import math
-code="可乐阅读"
-ver="1.6"
-envname="yuanshen_klyd"
+code="点点赚"
+ver="1.1"
+envname="yuanshen_ddz"
 split_chars=['@','&','\n']
 debug=False
 debugcookie=""
@@ -24,6 +23,7 @@ def env(*args,**kwargs):
    main=yuanshen(cookie)
    main.main()
    print(f"--------第{i}个账号执行完毕--------")
+   time.sleep(random.randint(10,20))
  if not os.getenv(envname)and not debug:
   print(f"请先设置环境变量[{envname}]")
   exit()
@@ -53,124 +53,99 @@ def env(*args,**kwargs):
  print(f"本次脚本总运行时间: [{execution_time:.2f}] 秒")
 class yuanshen:
  def __init__(self,cookie)->None:
-  self.fuck_list=[1,2,126]
-  self.biz_list=['MzkwNTY1MzYxOQ==','MzA3NzMzNjMwMQ==']
-  self.cookies={"udtauth12":cookie}
- def tuisong(self):
-  url=f"https://wxpusher.zjiecode.com/api/send/message/?appToken={appToken}&topicId={topicIds}&content=检测文章%0A请在20秒内完成验证!%0A%3Cbody+onload%3D%22window.location.href%3D%27{quote(self.readurl)}%27%22%3E"
+  self.headers={"Host":"40417611257.sx.shuxiangby.cn","Connection":"keep-alive","Accept":"*/*","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220099 MMWEBSDK/20240404 MMWEBID/98 MicroMessenger/8.0.49.2600(0x28003133) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","X-Requested-With":"XMLHttpRequest","Referer":"http://40417611257.sx.shuxiangby.cn/index/mob/index.html","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
+  self.headers2={"Host":"40417611257.sx.shuxiangby.cn","Connection":"keep-alive","Upgrade-Insecure-Requests":"1","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220099 MMWEBSDK/20240404 MMWEBID/98 MicroMessenger/8.0.49.2600(0x28003133) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/wxpic,image/tpg,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","X-Requested-With":"com.tencent.mm","Referer":"http://40417611257.sx.shuxiangby.cn/index/mob/mine.html","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
+  self.cookie={"user_openid":f"{cookie.split('#')[0]}","uid":f"{cookie.split('#')[1]}","PHPSESSID":f"{cookie.split('#')[2]}"}
+  self.uid=cookie.split('#')[1]
+ def extract_url(self,url):
+  parsed_url=urlparse(url)
+  full_domain=parsed_url.netloc
+  query_params=url.split('?')[1]
+  if not query_params:
+   query_params=None
+  return full_domain,query_params
+ def push(self):
+  url=f"https://wxpusher.zjiecode.com/api/send/message/?appToken={appToken}&topicId={topicIds}&content=检测文章%0A请在20秒内完成验证!%0A%3Cbody+onload%3D%22window.location.href%3D%27{quote(self.acturl)}%27%22%3E"
   r=requests.get(url).json()
-  print(f"🎉️检测文章推送结果{r}")
- def getmain(self):
-  headers={"Host":"230640607122241.asfuoqa.cn","Connection":"keep-alive","Upgrade-Insecure-Requests":"1","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220133 MMWEBSDK/20240501 MMWEBID/5295 MicroMessenger/8.0.50.2701(0x28003251) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/wxpic,image/tpg,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","X-Requested-With":"com.tencent.mm","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
-  url='http://230640607122241.asfuoqa.cn/r?upuid=2306406'
-  r=requests.get(url,headers=headers,allow_redirects=False)
-  if r.status_code==302:
-   j=urlparse(r.headers['Location'])
-   self.mainurl=j.netloc
-   print(f"获取主域名成功:[{self.mainurl}]")
-   self.headers={"Host":self.mainurl,"Connection":"keep-alive","Accept":"application/json, text/plain, */*","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220133 MMWEBSDK/20240501 MMWEBID/5295 MicroMessenger/8.0.50.2701(0x28003251) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","X-Requested-With":"XMLHttpRequest","Referer":f"http://{self.mainurl}/new?upuid=2306406","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
-  else:
-   print('获取主域名失败')
-   exit()
- def getdomain(self):
-  url=f'http://{self.mainurl}/tuijian?url='
-  r=requests.get(url,headers=self.headers,cookies=self.cookies).json()
-  if r['code']==0:
-   self.today_num=int(r["data"]["infoView"]["num"])
-   try:
-    print(r["data"]["infoView"]["msg"])
+  print(f"🎉️账号检测文章推送结果{r}")
+ def getreadurl(self):
+  url="http://40417611257.sx.shuxiangby.cn/index/mob/get_read_qr.html"
+  r=requests.get(url,headers=self.headers,cookies=self.cookie).json()
+  if r['code']==1:
+   url_pattern=r"http[s]?://[^\s]+"
+   urls=re.findall(url_pattern,r['web_url'])
+   self.domain,self.readcode=self.extract_url(urls[0])
+   if urls:
+    print(f"🔔获取到阅读链接: [{self.domain}][{self.readcode}]")
+    self.readh={"Host":f"{self.domain}","Connection":"keep-alive","Content-Length":"47","Accept":"*/*","X-Requested-With":"XMLHttpRequest","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220099 MMWEBSDK/20240404 MMWEBID/5295 MicroMessenger/8.0.49.2600(0x28003159) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","Content-Type":"application/x-www-form-urlencoded; charset=UTF-8","Origin":f"http://{self.domain}","Referer":f"http://{self.domain}/?{self.readcode}","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
+    return True
+   else:
+    print("❌️未获取到阅读链接")
     return False
-   except:
-    pass
-  url=f'http://{self.mainurl}/new/bbbbb'
-  r=requests.get(url,headers=self.headers,cookies=self.cookies)
-  self.domain=r.json()['jump']
-  j=urlparse(self.domain)
-  p=parse_qs(self.domain.split('?')[1])
-  self.iu=p.get('iu',[None])[0]
-  self.domain_url=j.netloc
-  print(f"获取域名成功:[{self.domain_url}][{self.iu}]")
-  time.sleep(2)
-  h={"Host":self.domain_url,"Connection":"keep-alive","Upgrade-Insecure-Requests":"1","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220133 MMWEBSDK/20240404 MMWEBID/5295 MicroMessenger/8.0.49.2600(0x2800315A) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/wxpic,image/tpg,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","X-Requested-With":"com.tencent.mm","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
-  r=requests.get(self.domain,headers=h,allow_redirects=False)
-  match=re.search(r"var url = '(.*)'",r.text)
-  if match:
-   self.canshu=match.group(1)
-   self.domain_url2=urlparse(self.canshu).netloc
-   print("Get 阅读参数----Ok!")
   else:
-   print("发生未知错误 获取参数失败")
-   exit()
-  print("="*30)
-  return True
+   print(f"❌️未获取到阅读链接[{r}]")
+   return False
  def read(self):
-  self.readh2={"Host":self.domain_url2,"Connection":"keep-alive","sec-ch-ua":"Chromium;v=122, Not(A:Brand;v=24, Android","X-Requested-With":"XMLHttpRequest","sec-ch-ua-mobile":"?1","User-Agent":"Mozilla/5.0 (Linux; Android 14; 23113RKC6C Build/UKQ1.230804.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220133 MMWEBSDK/20240501 MMWEBID/5295 MicroMessenger/8.0.50.2701(0x28003251) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64","sec-ch-ua-platform":"Android","Accept":"*/*","Origin":f"http://{self.domain_url}","Sec-Fetch-Site":"cross-site","Sec-Fetch-Mode":"cors","Sec-Fetch-Dest":"empty","Referer":f"http://{self.domain_url}/","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"}
-  print(f"今日已读:[{self.today_num}]篇文章")
-  jkey=None
-  time.sleep(random.randint(2,5))
+  url=f"http://{self.domain}/index/index/get_article.html"
+  url2=f"http://{self.domain}/index/index/auth_record.html"
+  cookie={"thinkphp_show_page_trace":"0|0"}
   while True:
-   self.today_num+=1
-   r=random.random()
-   if jkey is None:
-    url=f"{self.canshu}?iu={self.iu}&pageshow&r={r}"
+   data={'code':self.readcode,'uid':self.uid}
+   r=requests.post(url,headers=self.readh,data=data,cookies=cookie).json()
+   if r['code']==1:
+    self.acturl=r["data"]["info"]["link2"]
+    rid=int(r['data']['info']['rid'])
+    print(f"🎉获取文章成功: [{r['msg']}]")
+    if 'addtime' not in r['data']['info']:
+     print("遇到检测文章 推送ing...")
+     self.push()
+     time.sleep(random.randint(18,28))
+    else:
+     time.sleep(random.randint(9,18))
    else:
-    url=f"{self.canshu}?iu={self.iu}&pageshow&r={r}&jkey={jkey}"
-   r=requests.get(url,headers=self.readh2).json()
-   try:
-    jkey=r["jkey"]
-    self.readurl=r['url']
-   except:
-    print(f"获取文章链接失败[{r}]")
+    print(f"❌️获取文章失败: [{r}]")
     break
-   print(f"第[{self.today_num}]次获取文章成功:[{r['url']}]")
-   k=urlparse(self.readurl)
-   biz=parse_qs(k.query).get('__biz',[''])[0]if '__biz' in parse_qs(k.query)else ''
-   if biz in self.biz_list or self.today_num in self.fuck_list:
-    print('遇到检测文章，推送ing....')
-    self.tuisong()
-    time.sleep(random.randint(20,26))
+   data={'rid':rid,'time_is_gou':1}
+   r=requests.post(url2,headers=self.readh,data=data,cookies=cookie).json()
+   if r['code']==1:
+    print(f"🎉第[{r['txt']}]篇文章阅读成功")
    else:
-    time.sleep(random.randint(8,18))
-   if self.today_num>=Quantity_limit:
-    print(f"今日已读数量已达上限")
+    print(f"❌️阅读文章失败: [{r['msg']}]")
+    if '完成' in r['msg']:
+     url=f"http://{self.domain}/index/index/read_result.html"
+     data={'code':self.readcode}
+     r=requests.post(url,headers=self.readh,data=data,cookies=cookie).json()
+     if r['code']==1:
+      print(f"🔔结束阅读成功: [{r['msg']}]")
+     else:
+      print(f"❌️结束阅读失败: [{r}]")
     break
+   time.sleep(random.randint(2,5))
  def userinfo(self):
-  url=f'http://{self.mainurl}/tuijian?url='
-  r=requests.get(url,headers=self.headers,cookies=self.cookies).json()
-  if r['code']==0:
-   gold=float(r['data']['user']['score'])*100
-   print(f'今日已赚金币:[{float(r["data"]["infoView"]["score"])*100}]\n当前账号剩余金币:[{gold}] = [{gold/10000}]元')
-   if gold>=withdrawal_money:
-    self.withdrawal()
+  url='http://40417611257.sx.shuxiangby.cn/index/mob/index.html'
+  r=requests.get(url,headers=self.headers2,cookies=self.cookie)
+  if r.status_code==200:
+   match=re.search(r'(?<=可用积分：)\d+',r.text)
+   if match:
+    points=int(match.group())
+    print(f"🔔当前账号剩余积分:[{points}]=[{points/10000}]元💵")
    else:
-    print(f"金币余额不足[{withdrawal_money}] 不提现")
-  else:
-   print(f"查询个人余额失败:[{r}]")
- def withdrawal(self):
-  url=f'http://{self.mainurl}/withdrawal'
-  r=requests.get(url,headers=self.headers,cookies=self.cookies).json()
-  if r['code']==0:
-   score=math.floor(float(r['data']['user']['score']))
-   data={'amount':score,'type':'wx'}
-   url=f'http://{self.mainurl}/withdrawal/doWithdraw'
-   r=requests.post(url,data=data,headers=self.headers,cookies=self.cookies)
-   print(f"提现结果:[{r.text}]")
+    print("❌️没有获取到积分❌️")
  def main(self):
-  self.getmain()
-  time.sleep(random.randint(2,5))
-  if self.getdomain():
-   self.read()
+  if not self.getreadurl():
+   return
+  time.sleep(random.randint(3,5))
+  self.read()
+  time.sleep(random.randint(3,5))
+  print("======================================")
   self.userinfo()
 if __name__=='__main__':
  appToken=''
  topicIds=''
- if debug:
-  appToken=''
-  topicIds=''
  if not appToken or not topicIds:
-  appToken=os.getenv('yuanshen_apptoken')
-  topicIds=os.getenv('yuanshen_topicid')
-  if not appToken or not topicIds:
-   print("❌你还没有设置推送,请设置环境变量:yuanshen_topicid和yuanshen_apptoken")
-   exit()
+  appToken=os.getenv("yuanshen_apptoken")
+  topicIds=os.getenv("yuanshen_topicid")
+ if not appToken or not topicIds:
+  print("请先配置appToken和topicIds")
+  exit()
  env()
