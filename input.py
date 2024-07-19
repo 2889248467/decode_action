@@ -1,20 +1,9 @@
 #   --------------------------------注释区--------------------------------
-#   入口:http://230640607122241.asfuoqa.cn/r?upuid=2306406
-#   走个头谢谢 不然没更新动力了呜呜呜
-
-#   变量:yuanshen_klyd
-#   多号分割方式 [ @ 或 换行 或 新建同名变量 ]
-#   抓取Cookie中udtauth12的值填入 搜udtauth12
-#   在抓取上面的参数时同时抓取请求头中的user-agent填入yuanshen_useragent
-#   corn: 一小时一次即可
-
-#   检测配置：
-#   在yuanshen_apptoken，yuanshen_topicid分别填入你的wxpusher的apptoken和topicid
-#   注意是填的topicid而不是你的uid 不要傻乎乎把uid填上去 填了不推送文章包黑号的
-#   不懂看 https://wxpusher.zjiecode.com/docs/#/ 或 百度 或 打钱
-
-withdrawal_money = 3000 #提现金币数量 1000金币=0.1r
-Quantity_limit = 180  #阅读上限篇数 跑满(195篇左右)概率封号
+#   入口:https://www.xingdouduanju.com/pages/register/index.html?invite_code=351449 走个头谢谢
+#   变量:yuanshen_xddj 多号@
+#   抓取Authorization的值填入
+#   corn: 八小时一次 22 8-23/8 * * *
+exchange = True #是否自动兑换猪 开启True 关闭False
 #   --------------------------------一般不动区--------------------------------
 #                     _ooOoo_
 #                    o8888888o
@@ -49,5 +38,252 @@ Quantity_limit = 180  #阅读上限篇数 跑满(195篇左右)概率封号
 #        不见满街漂亮妹，哪个归得程序员？
 #
 #   --------------------------------代码区--------------------------------
-import bz2, base64
-exec(bz2.decompress(base64.b64decode('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')))
+import requests
+import json
+import time
+import os
+import random
+import hashlib
+def version():
+     txt = requests.get("https://gitee.com/HuaJiB/yuanshen34/raw/master/pubilc.txt").text
+     print(txt)
+
+
+
+
+class yuanshen():
+    def __init__(self,cookie):
+        self.url = "https://api.xingdouduanju.com"
+        self.key = "kjKjb8WRmfb77U6IMqsVtIuIFQCvab4JBqABNqSp"
+        self.cookie = cookie
+        self.header = {
+    "Authorization": f"{self.cookie}",
+    "X-Version-Code": "126",
+    "X-Platform": "android",
+    "X-System": "13",
+    "X-Brand": "Redmi",
+    "Content-Type": "application/json; charset=utf-8",
+    "Host": "api.xingdouduanju.com",
+    "Connection": "Keep-Alive",
+    "Accept-Encoding": "gzip",
+    "User-Agent": "okhttp/4.9.2"
+}
+
+    def _md5(self,s):
+        md5 = hashlib.md5()
+        md5.update(s.encode('utf-8'))
+        return md5.hexdigest()
+
+    def _nonce(self,length=16):
+        nonce = os.urandom(length)
+        return nonce.hex()
+
+    def _time(self):
+        return (int(time.time() * 1000))
+
+    def gold_task(self,id,name):
+        url = f"https://api.xingdouduanju.com/api/gold_tasks/{id}/complete"
+        self.nonce = self._nonce()
+        self.time = self._time()
+        if id == 11 or id == 1:
+            self.sign = self._md5(f"{id}&{self.time}&{self.nonce}&{self.key}&true")
+        else:
+            self.sign = self._md5(f"{self.time}&{id}&{self.nonce}&{self.key}&true")
+        data = {
+            "timestamp": f"{self.time}",
+            "nonce": f"{self.nonce}",
+            "id": f"{id}",
+            "done":True,
+            "sign": f"{self.sign}"
+        }
+        r = requests.post(url,headers=self.header,json=data).json()
+        if r["code"] == 200001:
+            if id == 11:
+                print(f"✅做任务[{id}][{name}]成功,获得现金[{r['data']['reward']}]")
+            else:
+                print(f"✅做任务[{id}][{name}]成功,获得金币[{r['data']['reward']}]")
+            if id == 1:
+                time.sleep(random.randint(10,30))
+            elif id == 5:
+                time.sleep(random.randint(61,63))
+            elif id == 6:
+                time.sleep(random.randint(34,60))
+            else:
+                time.sleep(random.randint(10,20))
+        else:
+            print(f"❌️做任务[{id}][{name}]失败,错误信息:{r}")
+            time.sleep(random.randint(5,15))
+
+    def daily_task(self):
+        url = f"{self.url}/api/gold_tasks"
+        r = requests.get(url,headers=self.header).json()
+        do_id_list = [1,5,6,11]
+        if r["code"] == 200001:
+            print("🎉️获取任务列表成功！")
+            for dataa in r["data"]["tasks"]:
+                rjson = json.loads(json.dumps(dataa))
+                if rjson['id'] in do_id_list:
+                    
+                    do_time = rjson['times'] - rjson['completedCount']
+                    print(f"✅开始执行任务[{rjson['name']}],共执行[{do_time}]次")
+                    for i in range(do_time):
+                        self.gold_task(rjson['id'],rjson['name'])
+
+                else:
+                    print(f"❌️跳过任务[{rjson['name']}]")
+        else:
+            print(f"❌️获取任务失败,错误信息:{r}")
+
+    def get_gold(self):
+        url = f"{self.url}/api/gold_pigs/info"
+        r = requests.get(url,headers=self.header).json()
+        if r["code"] == 200001:
+            print("🎉️获取金块信息成功！")
+            global pigcount
+            pigcount = r["data"]["goldPigCount"]
+            url = "https://api.xingdouduanju.com/api/gold_pigs/collect_all_bullion"
+            self.time = self._time()
+            self.nonce = self._nonce()
+            self.sign = self._md5(f"{self.time}&{self.nonce}&{self.key}&true")
+
+            data ={
+    "timestamp": f"{self.time}",
+    "nonce": f"{self.nonce}",
+    "hasWatchAd": True,
+    "sign": f"{self.sign}"
+            }
+            r = requests.post(url,headers=self.header,json=data).json()
+            if r["code"] == 200001:
+                print(f"✅一键领取金块成功")
+                time.sleep(random.randint(3,8))
+            else:
+                print(f"❌️一键领取金块失败,错误信息:{r}")
+                time.sleep(random.randint(3,8))
+
+
+    def userinfo(self):
+        if exchange:
+            while True:
+                url = f"{self.url}/api/gold_pigs/gold_exchange"
+                self.nonce = self._nonce()
+                self.time = self._time()
+                self.sign = self._md5(f"{self.time}&{self.nonce}&{self.key}")
+                data = json.dumps({
+                "timestamp": f"{self.time}",
+                "nonce": f"{self.nonce}",
+                "sign": f"{self.sign}"
+                    })
+                r = requests.post(url,headers=self.header,data=data).json()
+                if r["code"] == 200001:
+                    print(f"✅兑换猪仔成功 [{r['message']}]")
+                    time.sleep(random.randint(5,10))
+                else:
+                    print(f"❌️兑换猪仔失败,错误信息 [{r['message']}]")
+                    break
+        else:
+            print("❌️跳过兑换猪仔")
+
+        url = f"{self.url}/api/user/profile"
+        r = requests.get(url,headers=self.header).json()
+        if r["code"] == 200001:
+            print("=========================================")
+            print("查询用户信息成功")
+            print(f"🎉️当前金币 [{r['data']['walletGold']['balance']}]")
+            print(f"🎉️当前金块 [{r['data']['walletBullion']['balance']}]")
+            print(f"🎉️当前猪仔 [{pigcount}]")
+        else:
+            print(f"❌️查询用户信息失败,错误信息:{r}")
+
+    def get_gold_tuandui(self):
+        url = f"{self.url}/api/user_bonus_bullions/info"
+        r = requests.get(url,headers=self.header).json()
+        if r["code"] == 200001:
+            print(f"🎉️获取团队金块信息成功 可领取[{r['data']['bullionTotal']}]")
+            if r['data']['bullionTotal'] == 0:
+                print("🎉️没有可领取的团队金块")
+                return
+            url = f"{self.url}/api/user_bonus_bullions/collect"
+            self.time = self._time()
+            self.nonce = self._nonce()
+            self.sign = self._md5(f"{self.time}&{self.nonce}&{self.key}")
+            data = {
+                "timestamp": f"{self.time}",
+                "nonce": f"{self.nonce}",
+                "sign": f"{self.sign}"
+            }
+            r = requests.post(url,headers=self.header,json=data).json()
+            if r["code"] == 200001:
+                print(f"✅领取团队金块成功 [{r['message']}]")
+            else:
+                print(f"❌️领取团队金块失败,错误信息:{r}")
+        else:
+            print(f"❌️获取团队金块信息失败,错误信息:{r}")
+
+    def steal_gold(self):
+        i = 1
+        while True:
+            url = f"{self.url}/api/user/friends?level={i}&curor=2&keyword="
+            r = requests.get(url,headers=self.header).json()
+            if r["code"] == 200001:
+                print(f"🎉️获取好友信息成功")
+                for dataa in r["data"]:
+                    rjson = json.loads(json.dumps(dataa))
+                    if rjson['canCollectBullion']:
+                        url = f"{self.url}/api/user_friend_bullions/collect"
+                        self.time = self._time()
+                        self.nonce = self._nonce()
+                        self.sign = self._md5(f"{self.time}&{rjson['id']}&{self.nonce}&{self.key}")
+                        data = json.dumps({
+                            "timestamp": f"{self.time}",
+                            "nonce": f"{self.nonce}",
+                            "friendId": f"{rjson['id']}",
+                            "sign": f"{self.sign}"
+                        })
+                        r = requests.post(url,headers=self.header,data=data).json()
+                        if r["code"] == 200001:
+                            print(f"✅领取好友[{rjson['nickname']}]金块成 获得[{r['data']['amount']}]金块")
+                        else:
+                            print(f"❌️领取好友[{rjson['nickname']}]金块失败,错误信息:{r}")
+                        time.sleep(random.randint(1,3))
+                    else:
+                        print(f"❌️好友[{rjson['nickname']}]没有可领取的金块")
+                        time.sleep(1)
+            else:
+                print(f"❌️获取好友信息失败,错误信息:{r}")
+                break
+            i += 1
+            if i == 3:
+                break
+
+    def task(self):
+        print("🎉️开始执行[日常任务]")
+        self.daily_task()
+        print("===========================")
+        print("🎉️开始执行[领取金块]")
+        self.get_gold()
+        print("===========================")
+        self.get_gold_tuandui()
+        print("===========================")
+        self.steal_gold()
+        print("===========================")
+        print("🎉️开始执行[兑换猪仔&查询信息]")
+        self.userinfo()
+
+if __name__ == '__main__':
+    version()
+    cookie = ''
+    if not cookie:
+        cookie = os.getenv("yuanshen_xddj")
+        if not cookie:
+            print("请设置环境变量:yuanshen_xddj")
+            exit()
+    cookies = cookie.split("@")
+    print(f"一共获取到{len(cookies)}个账号")
+    i = 1
+    for cookie in cookies:
+     print(f"\n--------开始第{i}个账号--------")
+     main = yuanshen(cookie)
+     main.task()
+     print(f"--------第{i}个账号执行完毕--------")
+     i += 1
+    
