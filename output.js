@@ -1,4 +1,4 @@
-//Fri Jul 19 2024 10:22:07 GMT+0000 (Coordinated Universal Time)
+//Sun Jul 21 2024 02:20:17 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
 const fanli = Bucket("fanli");
