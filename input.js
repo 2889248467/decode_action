@@ -1,27 +1,169 @@
-/**
- * @title 京东转链_京品库
- * @origin 傻妞官方
- * @create_at 2024-06-02 17:36:54
- * @description 🐶支持京东转链。
- * @author 佚名
- * @class 返利
- * @version v1.0.9
- * @form {key: "fanli.jd_union_id", "title": "京东联盟ID", required: true}
- * @form {key: "fanli.jd_jingpinku_appid", "title": "京品库APP_ID", required: true}
- * @form {key: "fanli.jd_jingpinku_appkey", "title": "京品库APP_KEY", required: true}
- * @form {key: "fanli.re_image", title: "重新配图", valueType: 'switch'}
- * @form {key: "fanli.debug", title: "调试开关", valueType: 'switch'}
- * @icon http://images.jingpinku.com/60f0fec16f2c7.png
- * @public false
- */
 
-const fanli = Bucket("fanli")
-const union_id = fanli.jd_union_id ?? ""
-const appid = fanli.jd_jingpinku_appid ?? ""
-const appkey = fanli.jd_jingpinku_appkey ?? ""
-let content = s.getContent()
+//********用户配置区域开始*****************************************
+// 版本号：1.0
 
-/** Here is hidden scripts AHgWbJEAJ+xAR7tdQXXZapNuO5HstO4dh3Ljame9/2iB1zW2Px5AasoiJXmBoHntHnAahFGGeSze8OCRRjBhmnnLGys9pyOsQRIU7eQark/vs+29oNJT76eBUVOuZrMqM5wktBGbzgGiD/dV8mN0PTVmFgx2a7vMwqAkOckMeMBfm7iYcGZU5CbciRj6+YIc9oL0otSyRW5VHFacqIp3noLIWlC6LdCRCfDBsJTookQScT6NiUJV75XLJcp1s/2yeXIGTT6I2W9RXcJK4FTSjNTYXSVibnv1C9sHUrAmyZfUmNzzro04QLUr5fR6o2qLQwJEwWg/A+e+xPZv2/JBrwGyJq2IBxdV6CeGSJJkboajXlHBgVC3eTJ9/9d9ftCfubefXif4idyTYTzN4DaIBfuWfEh6Nv0ZPBEAfU4xcUn90ACsvqbsUs4c6JQRjL6sKO4aIyM24WtO02ozmKTi5mY1eGEWGoXQCOrOrNA0YuuIka5NcvuJ/tv+uORyq7xIg3XIJh+t4hfZdFJURT35UpYlBO2yu+UQ3yJ3SAE8qmIsPc0wUh3lxLLqGlLlpSNgVr3UUgRPUoyeHHUwhOyAyjk05UGupQ25HqeKBbxj8tvDsHY8GwrWjng0YL5AetwDGxZ1QcK3s9oNlPzwoRo8pwx0JyzEdyIzl/1RBPLjyC/BSeI3cjroo0+Edoa2x0Ay+ICn0AYux8/a2BZ8uQjkjIZzWCDl6sN7HiufKS/RkbF4LigOk/K+7yjBAw9IDrMAeTb998dw+KN4eGHKZSYYsRkc0YPUnMcR4zLWh4OKIlA3wj+pXBkn8raMGNoAjDLMVguqZ/YkLAW4zOpHmcfaOu9HNmxFcZWBCsfvTPNud6HBBCr45k0Lqa53l6DXIr0oqqmMbH6BNMhCIdEU+9Ym+FVA6ypck8WdnmYY6Nm+k35v64FBziFpvBRTncxI7aiIyY7byNyYkO7Jks/WnIBfRmf4dS4Mr8OB0TScS7MA9l2H1om7NITxgltfT2XeGzNrdg0Re+dgKIsnTp4x14qS18LoivbmRfV3Hkj0ON3OyjC4YzdfYUHsQtB42bDF6YWehgrLJJg8JDr3xPR1EGv17Q== */
+//定义推送的线报酷域名，支持的域名有 http://new.ixbk.net，http://new.xianbao.fun, http://new.ixbk.fun 
+const domin = 'http://new.ixbk.net';
+
+//分类屏蔽
+//网站所有的分类有：赚客吧|赚客吧热帖|新赚吧|新赚吧热帖|微博线报|线报活动|食品饮料|个护美妆|服饰鞋帽|居家生活|母婴儿童|数码电子|运动户外|宠物天地|医疗保健|更多好物|豆瓣线报|豆瓣买组|豆瓣拼组|豆瓣发组|豆瓣狗组|爱猫生活|爱猫澡盆|小嘀咕|酷安|葫芦侠三楼|小刀娱乐网|3K8资讯网|技术QQ网|YYOK大全|活动资讯网|免费赚钱中心
+//微博所有的分类有：线报活动|食品饮料|个护美妆|服饰鞋帽|居家生活|母婴儿童|数码电子|运动户外|宠物天地|医疗保健|更多好物
+//豆瓣所有的分类有：买组|拼组|发组|狗组|爱猫生活|爱猫澡盆
+const pingbifenlei='';
+
+//以下筛选设置同线报酷用户中心一模一样
+//线报酷用户中心学习文档：http://new.xianbao.fun/wendang.html
+
+//全局列表筛选详细教程：http://new.ixbk.net/jiaocheng/587024.html
+//不同分类列表筛选设置：http://new.ixbk.net/jiaocheng/1015278.html
+
+//全局标题屏蔽
+const pingbibiaoti='';
+//全部标题强制展现
+const zhanxianbiaoti='';
+//全部标题强制屏蔽(强化)
+const pingbibiaotiplus='';
+
+//全局内容屏蔽
+const pingbineirong='';
+//全部内容强制展现
+const zhanxianneirong='';
+//全部内容强制屏蔽(强化)
+const pingbineirongplus='';
+
+//全部楼主屏蔽
+const pingbilouzhu='';
+//全部楼主强制展现
+const zhanxianlouzhu='';
+//全部楼主强制屏蔽(强化)
+const pingbilouzhuplus='';
+
+//赚客吧/新赚吧楼主注册日期屏蔽
+const pingbitime="5";
+
+
+//****以下代码不懂代码请勿修改*****用户还需要拉到底部修改最后的推送设置**************
+//****以下代码不懂代码请勿修改*****用户还需要拉到底部修改最后的推送设置**************
+//****以下代码不懂代码请勿修改*****用户还需要拉到底部修改最后的推送设置**************
+//****以下代码不懂代码请勿修改*****用户还需要拉到底部修改最后的推送设置**************
+//****以下代码不懂代码请勿修改*****用户还需要拉到底部修改最后的推送设置**************
+function daysComputed(time){var oldTimeFormat=new Date(time.replace(/-/g,'/'));var nowDate=new Date();if(nowDate.getTime()-oldTimeFormat.getTime()>0){var times=nowDate.getTime()-oldTimeFormat.getTime();var days=parseInt(times/(60*60*24*1000));return days}else{return 0}}
+function listfilter(group,pingbifenlei,pingbilouzhu,zhanxianlouzhu,pingbilouzhuplus,pingbibiaoti,zhanxianbiaoti,pingbibiaotiplus,pingbineirong,zhanxianneirong,pingbineirongplus,pingbitime){var louzhubaoliu,biaotibaoliu,neirongbaoliu,louzhupingbi,louzhupingbiplus,biaotipingbi,biaotipingbiplus,neirongpingbi,neirongpingbiplus;if(pingbitime&&group.louzhuregtime){if(pingbitime.match(new RegExp(/###/),"g")){pingbitimearr=pingbitime.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbitimearr.length;j++){xiaopingbitimearr=pingbitimearr[j].split("###");if(group.catename.match(new RegExp(xiaopingbitimearr[0],"i"))&&xiaopingbitimearr[1]>daysComputed(group.louzhuregtime)){return false}}}else{if(pingbitime>daysComputed(group.louzhuregtime)){return false}}}if(pingbifenlei&&group.catename){if(group.catename.match(new RegExp(pingbifenlei,"i"))){return false}}if(zhanxianlouzhu&&group.louzhu){if(zhanxianlouzhu.match(new RegExp(/###/),"g")){zhanxianlouzhuarr=zhanxianlouzhu.split(/<br>|\n\n|\r\n/);for(j=0;j<zhanxianlouzhuarr.length;j++){xiaozhanxianlouzhuarr=zhanxianlouzhuarr[j].split("###");if(group.catename.match(new RegExp(xiaozhanxianlouzhuarr[0],"i"))&&group.louzhu.match(new RegExp(xiaozhanxianlouzhuarr[1],"i"))){louzhubaoliu=1}}}else{if(group.louzhu.match(new RegExp(zhanxianlouzhu,"i"))){louzhubaoliu=1}}}if(pingbilouzhu&&group.louzhu&&louzhubaoliu!=1){if(pingbilouzhu.match(new RegExp(/###/),"g")){pingbilouzhuarr=pingbilouzhu.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbilouzhuarr.length;j++){xiaopingbilouzhuarr=pingbilouzhuarr[j].split("###");if(group.catename.match(new RegExp(xiaopingbilouzhuarr[0],"i"))&&group.louzhu.match(new RegExp(xiaopingbilouzhuarr[1],"i"))){louzhupingbi=1}}}else{if(group.louzhu.match(new RegExp(pingbilouzhu,"i"))){louzhupingbi=1}}}if(pingbilouzhuplus&&group.louzhu&&louzhupingbi!=1){if(pingbilouzhuplus.match(new RegExp(/###/),"g")){pingbilouzhuplusarr=pingbilouzhuplus.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbilouzhuplusarr.length;j++){xiaopingbilouzhuplusarr=pingbilouzhuplusarr[j].split("###");if(group.catename.match(new RegExp(xiaopingbilouzhuplusarr[0],"i"))&&group.louzhu.match(new RegExp(xiaopingbilouzhuplusarr[1],"i"))){louzhupingbiplus=1;louzhubaoliu=0}}}else{if(group.louzhu.match(new RegExp(pingbilouzhuplus,"i"))){louzhupingbiplus=1;louzhubaoliu=0}}}if(louzhupingbi==1||louzhupingbiplus==1){return false}if(zhanxianbiaoti&&group.title){if(zhanxianbiaoti.match(new RegExp(/###/),"g")){zhanxianbiaotiarr=zhanxianbiaoti.split(/<br>|\n\n|\r\n/);for(j=0;j<zhanxianbiaotiarr.length;j++){xiaozhanxianbiaotiarr=zhanxianbiaotiarr[j].split("###");if(group.catename.match(new RegExp(xiaozhanxianbiaotiarr[0],"i"))&&group.title.match(new RegExp(xiaozhanxianbiaotiarr[1],"i"))){biaotibaoliu=1}}}else{if(group.title.match(new RegExp(zhanxianbiaoti,"i"))){biaotibaoliu=1}}}if(pingbibiaoti&&group.title&&louzhubaoliu!=1&&biaotibaoliu!=1){if(pingbibiaoti.match(new RegExp(/###/),"g")){pingbibiaotiarr=pingbibiaoti.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbibiaotiarr.length;j++){xiaopingbibiaotiarr=pingbibiaotiarr[j].split("###");if(group.catename.match(new RegExp(xiaopingbibiaotiarr[0],"i"))&&group.title.match(new RegExp(xiaopingbibiaotiarr[1],"i"))){biaotipingbi=1}}}else{if(group.title.match(new RegExp(pingbibiaoti,"i"))){biaotipingbi=1}}}if(pingbibiaotiplus&&group.title&&louzhubaoliu!=1&&biaotipingbi!=1){if(pingbibiaotiplus.match(new RegExp(/###/),"g")){pingbibiaotiplusarr=pingbibiaotiplus.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbibiaotiplusarr.length;j++){xiaopingbibiaotiplusarr=pingbibiaotiplusarr[j].split("###");if(group.catename.match(new RegExp(xiaopingbibiaotiplusarr[0],"i"))&&group.title.match(new RegExp(xiaopingbibiaotiplusarr[1],"i"))){biaotipingbiplus=1;biaotibaoliu=0}}}else{if(group.title.match(new RegExp(pingbibiaotiplus,"i"))){biaotipingbiplus=1;biaotibaoliu=0}}}if(biaotipingbi==1||biaotipingbiplus==1){return false}if(zhanxianneirong&&group.content){if(zhanxianneirong.match(new RegExp(/###/),"g")){zhanxianneirongarr=zhanxianneirong.split(/<br>|\n\n|\r\n/);for(j=0;j<zhanxianneirongarr.length;j++){xiaozhanxianneirongarr=zhanxianneirongarr[j].split("###");if(group.catename.match(new RegExp(xiaozhanxianneirongarr[0],"i"))&&group.content.match(new RegExp(xiaozhanxianneirongarr[1],"i"))){neirongbaoliu=1}}}else{if(group.content.match(new RegExp(zhanxianneirong,"i"))){neirongbaoliu=1}}}if(pingbineirong&&group.content&&louzhubaoliu!=1&&biaotibaoliu!=1&&neirongbaoliu!=1){if(pingbineirong.match(new RegExp(/###/),"g")){pingbineirongarr=pingbineirong.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbineirongarr.length;j++){xiaopingbineirongarr=pingbineirongarr[j].split("###");if(group.catename.match(new RegExp(xiaopingbineirongarr[0],"i"))&&group.content.match(new RegExp(xiaopingbineirongarr[1],"i"))){neirongpingbi=1}}}else{if(group.content.match(new RegExp(pingbineirong,"i"))){neirongpingbi=1}}}if(pingbineirongplus&&group.content&&louzhubaoliu!=1&&biaotibaoliu!=1&&neirongpingbi!=1){if(pingbineirongplus.match(new RegExp(/###/),"g")){pingbineirongplusarr=pingbineirongplus.split(/<br>|\n\n|\r\n/);for(j=0;j<pingbineirongplusarr.length;j++){xiaopingbineirongplusarr=pingbineirongplusarr[j].split("###");if(group.catename.match(new RegExp(xiaopingbineirongplusarr[0],"i"))&&group.content.match(new RegExp(xiaopingbineirongplusarr[1],"i"))){neirongpingbiplus=1;neirongbaoliu=0}}}else{if(group.content.match(new RegExp(pingbineirongplus,"i"))){neirongpingbiplus=1;neirongbaoliu=0}}}if(neirongpingbi==1||neirongpingbiplus==1){return false}return true}
+function isMessageInFile(message,filePath){if(!fs.existsSync(filePath)){fs.writeFileSync(filePath,'[]');}const data=fs.readFileSync(filePath,'utf8');if(!data){return false;}const messages=JSON.parse(data);return messages.some(existingMessage=>existingMessage.id===message.id);}function appendMessageToFile(message,filePath){if(!fs.existsSync(filePath)){fs.writeFileSync(filePath,'[]');}const data=fs.readFileSync(filePath,'utf8');const messages=data?JSON.parse(data):[];messages.push(message);if(messages.length>30){messages.splice(0,messages.length-30);}fs.writeFileSync(filePath,JSON.stringify(messages,null,2));  /*console.debug(`消息已添加到文件 ${filePath}: ${message.title}` );*/}
+const notify = require('./xianbao_send');
+const fs = require('fs');
+const https = require('https');
+const request = require('request');
+const newUrl = domin + '/plus/json/push.json';
+
+console.debug('开始获取线报酷数据...');
+
+
+  new Promise((resolve, reject) => { 
+    request(newUrl, (error, response, body) => {
+      if (!error && response.statusCode === 200) {
+        resolve(JSON.parse(body));
+        // console.log(JSON.parse(body));
+      } else {
+        resolve([]); 
+      }
+    });
+  })
+  .then((xbkdata) => {
+    let items=[];
+    xbkdata.forEach(item => {
+    if (!isMessageInFile(item, 'xbk.json')) {
+        appendMessageToFile(item, 'xbk.json');
+        //进行全部屏蔽判断
+        if(listfilter(item,pingbifenlei,pingbilouzhu,zhanxianlouzhu,pingbilouzhuplus,pingbibiaoti,zhanxianbiaoti,pingbibiaotiplus,pingbineirong,zhanxianneirong,pingbineirongplus,pingbitime)){
+            items.push(item);
+        }else{
+            //console.log("-----------------------------");
+            //console.log("数据因你的设置被全局屏蔽："+item.title+"【"+item.catename+"】"+domin+item.url);
+        }
+    }
+
+    })
+
+    //进行只看它判断过滤 开始--------------
+    // 只看它推送设置
+    let zkt_gjc = '';
+    // 只看它推送设置
+    let filteredItems = [];
+    items.forEach(item => {
+        if (listfilter(item, "", "", "", "", "(.*)", zkt_gjc?zkt_gjc:"(.*)", "", "", "", "", "")) {
+            //提示会写代码的，这里可以插入推送代码，可以实现不同只看它推送不同通道
+            filteredItems.push(item);
+        } else {
+            // console.log("-----------------------------");
+            // console.log("数据不符合只看它被屏蔽："+item.title+"【"+item.catename+"】"+domin+item.url);
+        }
+    });
+    items = filteredItems;
+    
 
 
 
+    //这里是最后的推送设置，用户可以修改部分推送格式******************
+    //这里是最后的推送设置，用户可以修改部分推送格式******************
+    let hebingdata="";
+    items.forEach(item => {
+        //这里是分离发布(一个信息发一次)推送
+        //这里是分离发布(一个信息发一次)推送
+        //这里是分离发布(一个信息发一次)推送
+
+        //推送的内容格式需要自己修改
+        notify.pushMeNotify(item.title+"【"+item.catename+"】", domin+item.url);
+
+        //----------------------------------------
+        // notify.sendNotify("标题","描述") 是 xianbao_send.js 填写了参数的全部推送
+        // item 包含了信息很多参数，字段说明：item.title标题，item.content文字内容，item.datetime日期，item.shorttime时间，item.shijianchuo时间戳，item.cateid分类id，item.catename分类名，item.louzhu楼主名字，item.louzhuregtime楼主注册日期，item.url线报酷文章相对路径
+        //也可以设置单独推送某一个推送通道
+        //----------------------------------------
+        //serverNotify(text, desp); 微信server酱
+        //pushPlusNotify(text, desp); pushplus
+        //wePlusBotNotify(text, desp); 微加机器人
+        //barkNotify(text, desp, params); iOS Bark APP
+        //tgBotNotify(text, desp); telegram 机器人
+        //ddBotNotify(text, desp); 钉钉机器人
+        //qywxBotNotify(text, desp); 企业微信机器人
+        //qywxamNotify(text, desp); 企业微信应用消息推送
+        //iGotNotify(text, desp, params); iGot
+        //gobotNotify(text, desp); go-cqhttp
+        //gotifyNotify(text, desp); gotify
+        //chatNotify(text, desp); synolog chat
+        //pushDeerNotify(text, desp); PushDeer
+        //aibotkNotify(text, desp); 智能微秘书
+        //fsBotNotify(text, desp); 飞书机器人
+        //smtpNotify(text, desp); SMTP 邮件
+        //pushMeNotify(text, desp, params); PushMe
+        //chronocatNotify(text, desp); Chronocat
+        //webhookNotify(text, desp); 自定义通知
+        //qmsgNotify(text, desp); 自定义通知
+        console.log("-----------------------------");
+        console.log("发现到新数据："+item.title+"【"+item.catename+"】"+domin+item.url);
+
+
+        //定义合并推送内容格式
+        if(hebingdata){
+            //合并换行符
+            hebingdata+="\n\n";
+        }
+        hebingdata+=item.title+"【"+item.catename+"】"+domin+item.url;
+    })
+        //-----------------------------------------------
+        //-----------------------------------------------
+        //-----------------------------------------------
+        //-----------------------------------------------
+        
+        //这里是合并发布内容(多条信息合并起来发送)，自己把下面//注释解除，然后把上面单条信息的notify.sendNotify 加上//注释
+        //notify.sendNotify(hebingdata, "线报酷来新活动了");
+        
+
+    console.log("\n\n\n\n*******************************************");
+    console.log("*******************************************");
+    console.debug('获取到'+items.length+"条新数据，本次任务结束");
+  })
+  .catch(error => {
+    console.error('获取和解析线报酷时发生错误:', error);
+  });
