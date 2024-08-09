@@ -1,139 +1,148 @@
-//Fri Aug 09 2024 09:17:34 GMT+0000 (Coordinated Universal Time)
+//Fri Aug 09 2024 09:21:06 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
 const {
-    validateCarmeWithType: _0x4cfa40,
-    getCookies: _0x313a08,
-    getUserInfoWithX: _0x4a4a5b,
-    wait: _0x5ad5ca,
-    commonRequest: _0x5f380f,
-    getCoordinates,
-    sign,
-    getToken,
-    checkCk,
-    tryCatchPromise
-  } = require("./common.js"),
-  request = require("request"),
-  _0x57253e = process.env.ELE_CARME,
-  _0x1c5d9a = 16;
-async function h5Req(_0x435d5d, _0x5231fc) {
-  const _0x9519bd = {
-      authority: "shopping.ele.me",
-      accept: "application/json",
-      "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-      "cache-control": "no-cache",
-      "content-type": "application/x-www-form-urlencoded",
-      origin: "https://r.ele.me",
-      pragma: "no-cache",
-      referer: "https://r.ele.me/linkgame/index.html?navType=3&spm-pre=a2ogi.13162730.zebra-ele-login-module-9089118186&spm=a13.b_activity_kb_m71293.0.0",
-      cookie: _0x435d5d,
-      "x-ele-ua": "RenderWay/H5 AppName/wap Mozilla/5.0 (Linux; Android 8.0.0; SM-G955U Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36",
-      "user-agent": "Mozilla/5.0 (Linux; Android 8.0.0; SM-G955U Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
-    },
-    _0x395caf = new Date().getTime(),
-    _0xc3123 = 12574478;
-  var _0x262d46 = "data=" + encodeURIComponent(JSON.stringify(_0x5231fc));
-  const _0x3d0021 = getToken(_0x435d5d),
-    _0x15dbe5 = _0x3d0021.split("_")[0],
-    _0x4c2b9e = await sign(_0x15dbe5 + "&" + _0x395caf + "&" + _0xc3123 + "&" + JSON.stringify(_0x5231fc), process.env.ELE_CARME),
-    _0xb036ce = {
-      url: "https://shopping.ele.me/h5/mtop.koubei.interactioncenter.platform.right.lottery/1.0/?jsv=2.6.1&appKey=12574478&t=" + _0x395caf + "&sign=" + _0x4c2b9e + "&api=mtop.koubei.interactioncenter.platform.right.lottery&v=1.0&type=originaljson&dataType=json&timeout=5000&subDomain=shopping&mainDomain=ele.me&H5Request=true&pageDomain=ele.me&ttid=h5%40chrome_android_87.0.4280.141&SV=5.0",
-      method: "POST",
-      headers: _0x9519bd,
-      body: _0x262d46
-    };
-  return tryCatchPromise(_0x2a583b => {
-    request(_0xb036ce, (_0x50c447, _0x3d3170, _0x300d49) => {
-      _0x2a583b(JSON.parse(_0x300d49));
-    });
-  });
+  getEnvsByName,
+  DisableCk,
+  EnableCk,
+  updateEnv,
+  updateEnv11,
+  getEnvByUserId
+} = require("./ql");
+const {
+  wait,
+  checkCk,
+  validateCarmeWithType,
+  invalidCookieNotify,
+  getUserInfo,
+  runOne,
+  getCookieMap
+} = require("./common.js");
+const _0x11f78e = require("moment");
+function _0x543ec4(_0x3fdeea, _0x4dabab) {
+  return Math.floor(Math.random() * (_0x4dabab - _0x3fdeea + 1) + _0x3fdeea);
 }
-async function initEnv(_0x22eacf, _0x47cef2, _0x48ccf4) {
-  const _0xa1af4f = _0x57253e,
-    _0x1b31ad = {
-      method: "POST",
-      url: process.env.HOST + "/check/getumtid",
-      headers: {
-        "user-agent": "Apifox/1.0.0 (imsb)",
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({
-        carmi: _0xa1af4f,
-        latitude: _0x47cef2,
-        longitude: _0x48ccf4
-      })
-    };
-  return tryCatchPromise(_0xdd0ccd => {
-    request(_0x1b31ad, async (_0x135abe, _0x20c566, _0x5661a4) => {
-      if (!_0x135abe && _0x20c566.statusCode === 200) {
-        _0x5661a4 = JSON.parse(_0x5661a4);
-        _0x5661a4.code === 20000 ? _0xdd0ccd(_0x5661a4.data) : (console.log(_0x5661a4.message), _0xdd0ccd());
-      } else {
-        console.log(_0x135abe || _0x5661a4);
-        _0xdd0ccd();
+function _0x389941(_0x1daaab) {
+  let _0x59299c = "";
+  for (let [_0x7cf76, _0x5050e8] of _0x1daaab) {
+    _0x59299c += encodeURIComponent(_0x7cf76) + "=" + encodeURIComponent(_0x5050e8) + ";";
+  }
+  return _0x59299c;
+}
+async function _0x179175(_0x2afd75, _0x2c035c, _0x3898fc) {
+  let _0x1723ee = await runOne(_0x2c035c, _0x3898fc);
+  if (_0x1723ee && _0x1723ee.data) {
+    let _0x56dfb3 = _0x1723ee.data;
+    if (_0x56dfb3.code === 3000) {
+      let _0x152e9a = JSON.parse(_0x56dfb3.returnValue.data);
+      const _0x120021 = _0x152e9a.expires;
+      const _0x3e21d8 = _0x11f78e(_0x120021 * 1000).format("YYYY-MM-DD HH:mm:ss");
+      let _0xcf2e0a = getCookieMap(_0x2c035c);
+      let _0x1e14a1 = JSON.parse(_0x56dfb3.returnValue.extMap.eleExt);
+      for (let _0x325327 = 0; _0x325327 < _0x1e14a1.length; _0x325327++) {
+        let _0x296965 = _0x1e14a1[_0x325327];
+        if (_0x296965.name === "SID") {
+          _0xcf2e0a.SID = _0x296965.value;
+          break;
+        }
       }
-    });
-  });
-}
-async function _0x109797(_0x59c2bc, _0x44a872) {
-  const _0x182bf2 = new Date().getTime(),
-    {
-      latitude: _0x43c809,
-      longitude: _0x3192bc
-    } = await getCoordinates(),
-    {
-      UA: _0x1f9588,
-      umidtoken: _0x2ce074
-    } = await initEnv("", _0x43c809, _0x3192bc),
-    _0x401a77 = {
-      bizScene: "MAGIC_CUBE",
-      latitude: _0x43c809,
-      longitude: _0x3192bc,
-      bizCode: "MAGIC_CUBE",
-      actId: "20230802212526123181213864",
-      collectionId: "20230802212526148986536967",
-      componentId: "20230803112141370370827352",
-      extParams: "{\\\"actId\\\":\\\"20230802212526123181213864\\\",\\\"bizScene\\\":\\\"MAGIC_CUBE\\\",\\\"desc\\\":\\\"魔方消消乐\\\"}",
-      requestId: "20230802212526123181213864" + _0x182bf2 + "",
-      ua: _0x1f9588,
-      umidToken: _0x2ce074,
-      asac: "2A22C0239QW1FOL3UUQY7U"
-    };
-  try {
-    const _0x445d66 = await h5Req(_0x59c2bc, _0x401a77);
-    if (_0x445d66.data.data.errorMsg) {
-      console.log(_0x445d66.data.data.errorMsg);
-      return false;
+      let _0x5a92f2 = await runOne(_0x2c035c, _0xcf2e0a.get("SID"));
+      if (!_0x5a92f2) {
+        return;
+      }
+      _0xcf2e0a.cookie2 = _0x56dfb3.returnValue.sid;
+      let _0xf79b29 = _0x389941(_0xcf2e0a);
+      if (_0x2afd75.id) {
+        await updateEnv11(_0xf79b29, _0x2afd75.id, _0x2afd75.remarks);
+      } else {
+        await updateEnv(_0xf79b29, _0x2afd75._id, _0x2afd75.remarks);
+      }
+      let _0x88e06c = _0xcf2e0a.get("USERID");
+      let _0x2704d2 = await getEnvByUserId(_0x88e06c);
+      if (_0x2704d2) {
+        console.log("检测到 elmqqck，将进行同步刷新");
+        if (_0x2704d2.id) {
+          await updateEnv11(_0xf79b29, _0x2704d2.id, _0x2704d2.remarks, "elmqqck");
+        } else {
+          await updateEnv(_0xf79b29, _0x2704d2._id, _0x2704d2.remarks, "elmqqck");
+        }
+      }
+      let _0x4bf6e8 = "刷新成功，ck 有效期为：" + _0x3e21d8;
+      console.log(_0x4bf6e8);
+      return _0x4bf6e8;
     } else {
-      const _0x282c4a = _0x445d66.data.data.sendRightList[0].discountInfo.amount;
-      console.log("福尔魔方闯关成功。获得：" + _0x282c4a, "乐园币");
-      return _0x282c4a !== 1;
+      if (_0x56dfb3.message) {
+        console.log(_0x56dfb3.message);
+      } else {
+        console.log(_0x1723ee.ret[0]);
+      }
+      return null;
     }
-  } catch (_0x31b031) {
-    return false;
   }
 }
-async function _0x12d072() {
-  await _0x4cfa40(_0x57253e, 1);
-  const _0x1b7a0a = _0x313a08("elmck");
-  for (let _0x5c83c6 = 0; _0x5c83c6 < _0x1b7a0a.length; _0x5c83c6++) {
-    let _0x24b3c4 = _0x1b7a0a[_0x5c83c6],
-      _0x2dd844 = await _0x4a4a5b(_0x24b3c4, _0x1c5d9a),
-      _0x460a66 = await checkCk(_0x24b3c4, _0x5c83c6, process.env.ELE_CARME);
-    if (!_0x2dd844 || !_0x2dd844.userName) {
-      continue;
+(async function _0x1f3fe2() {
+  const _0xbb1015 = process.env.ELE_CARME;
+  await validateCarmeWithType(_0xbb1015, 1);
+  const _0x29805f = await getEnvsByName("elmck");
+  for (let _0x4b02a3 = 0; _0x4b02a3 < _0x29805f.length; _0x4b02a3++) {
+    let _0x55e0ac = _0x29805f[_0x4b02a3].value;
+    if (!_0x55e0ac) {
+      console.log(" ❌无效用户信息, 请重新获取ck");
+    } else {
+      try {
+        var _0x108a11 = 0;
+        if (_0x29805f[_0x4b02a3]._id) {
+          _0x108a11 = _0x29805f[_0x4b02a3]._id;
+        }
+        if (_0x29805f[_0x4b02a3].id) {
+          _0x108a11 = _0x29805f[_0x4b02a3].id;
+        }
+        _0x55e0ac = _0x55e0ac.replace(/\s/g, "");
+        let _0x36f4c6 = await checkCk(_0x55e0ac, _0x4b02a3);
+        if (!_0x36f4c6) {
+          let _0x2b2e4a = await _0x179175(_0x29805f[_0x4b02a3], _0x55e0ac);
+          if (_0x2b2e4a && _0x2b2e4a.indexOf("刷新成功") !== -1) {
+            await EnableCk(_0x108a11);
+            console.log("第", _0x4b02a3 + 1, "账号正常😁\n");
+          } else {
+            const _0x4fe156 = await DisableCk(_0x108a11);
+            if (_0x4fe156.code === 200) {
+              console.log("第", _0x4b02a3 + 1, "账号失效！已🈲用");
+            } else {
+              console.log("第", _0x4b02a3 + 1, "账号失效！请重新登录！！！😭");
+            }
+            await invalidCookieNotify(_0x55e0ac, _0x29805f[_0x4b02a3].remarks);
+          }
+        } else {
+          let _0x305e95 = await getUserInfo(_0x55e0ac);
+          if (!_0x305e95.username) {
+            let _0x21bffb = await _0x179175(_0x29805f[_0x4b02a3], _0x55e0ac);
+            if (_0x21bffb && _0x21bffb.indexOf("刷新成功") !== -1) {
+              await EnableCk(_0x108a11);
+              console.log("第", _0x4b02a3 + 1, "账号正常😁\n");
+            } else {
+              const _0x54a0b8 = await DisableCk(_0x108a11);
+              if (_0x54a0b8.code === 200) {
+                console.log("第", _0x4b02a3 + 1, "账号失效！已🈲用");
+              } else {
+                console.log("第", _0x4b02a3 + 1, "账号失效！请重新登录！！！😭");
+              }
+            }
+            await invalidCookieNotify(_0x55e0ac, _0x29805f[_0x4b02a3].remarks);
+          } else {
+            await _0x179175(_0x29805f[_0x4b02a3], _0x55e0ac, getCookieMap(_0x55e0ac).get("SID"));
+            await EnableCk(_0x108a11);
+            console.log("第", _0x4b02a3 + 1, "账号正常🎉🎉\n");
+          }
+        }
+      } catch (_0xaa7585) {
+        console.log(_0xaa7585);
+      }
     }
-    const _0x324e0d = _0x2dd844.localId;
-    let _0x5e3540 = _0x2dd844.encryptMobile;
-    console.log("\n****** #" + (_0x5c83c6 + 1), _0x5e3540, "*********");
-    console.log("账号的 id 为", _0x324e0d);
-    await _0x109797(_0x460a66);
-    console.log("防止挤爆了，延时 1 秒");
-    await _0x5ad5ca(1);
+    await wait(_0x543ec4(2, 3));
   }
   process.exit(0);
-}
-_0x12d072();
+})();
 function Env(t, e) {
   "undefined" != typeof process && JSON.stringify(process.env).indexOf("GITHUB") > -1 && process.exit(0);
   class s {
