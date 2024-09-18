@@ -8,7 +8,7 @@
 #   自动完成签到和听音乐任务 自行提现 玩法:听音乐得余额 签到得可提现余额(一天2r)
 #
 #   需抓取数据: 
-#   * 抓取gateway.rehuocm.com域名下任意请求头token的值和userCode的值填入
+#   * 抓取gateway.rehuocm.com域名下任意请求头token的值和userCode的值填入 
 #   * 格式 token#userCode
 #   
 #   变量名:yuanshen_qzyy
